@@ -40,8 +40,11 @@ const PageLinks: totalSettingUrl = {
 };
 
 const Layout = () => {
-  <>
-    <Outlet />
-  </>;
+  return (
+    <>
+      <>Test</>
+      <Outlet />
+    </>
+  );
 };
 export default Layout;
