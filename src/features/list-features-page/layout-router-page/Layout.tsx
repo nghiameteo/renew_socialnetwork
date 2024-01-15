@@ -8,7 +8,7 @@ interface totalSettingUrl {
   pageLinks: SettingUrl[];
   pageLinksAuthorize: SettingUrl[];
 }
-const totalPageLink: totalSettingUrl = {
+const PageLinks: totalSettingUrl = {
   pageLinks: [
     {
       title: "Home",
