@@ -1,0 +1,42 @@
+.container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 1rem 0 !important;
+
+  .typoFirst {
+    font-size: 2.5rem !important;
+    font-weight: 500 !important;
+  }
+  .link {
+    text-decoration: none;
+    color: #5cb85c;
+  }
+  .link:hover {
+    text-decoration: underline;
+    color: #688d3d;
+  }
+  .form {
+    width: 40% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0;
+    .box {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: flex-end !important;
+
+      .button {
+        text-transform: none;
+        color: #fff !important;
+        background-color: #5cb85c !important;
+      }
+    }
+  }
+}
