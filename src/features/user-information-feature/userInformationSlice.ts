@@ -1,10 +1,15 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginUser, NewUser, NewUserRequest, UpdateUser, User, UserResponse, UserState } from "../../app/models";
+import { LoginUser, NewUser, NewUserRequest, UpdateUser, User, UserResponse } from "../../app/models";
 import { api } from "../../app/axios-instance";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { RootState } from "../../app/store";
 import router from "../../app/router";
-
+interface UserState {
+    isAuthorized: boolean;
+    isLoading: boolean;
+    token?: string;
+    user?: User;
+}
 const initialState: UserState = {
     isAuthorized: false,
     isLoading: false,
