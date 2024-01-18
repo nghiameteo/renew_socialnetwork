@@ -1,0 +1,50 @@
+.headerBox {
+  width: 100%;
+  background-color: #5cb85c;
+  .containerHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 32px;
+    color: rgb(255, 255, 255);
+
+    .typoHeaderFirst {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+    .typoHeaderSecond {
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+  }
+}
+
+.containerMain {
+  .gridContainer {
+    .gridItemArticles {
+      .boxTabs {
+        .tabs {
+          .pendingTab {
+            text-transform: none;
+            color: #aaa;
+          }
+          .pendingTab:hover {
+            text-transform: none;
+            color: #555a76;
+          }
+          .activeTab {
+            text-transform: none;
+            color: #5cb85c;
+          }
+        }
+        .tabIndicator {
+          background-color: #5cb85c;
+        }
+      }
+    }
+    .gridFilter {
+    }
+  }
+}

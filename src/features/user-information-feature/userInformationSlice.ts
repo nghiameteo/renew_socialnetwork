@@ -48,7 +48,6 @@ function* logoutSaga() {
     catch (error) {
         yield put(setIsLoading(false));
         console.log('logoutSaga', error);
-
     }
 }
 
@@ -85,9 +84,10 @@ const tryRegister = async (data: NewUser): Promise<NewUserRequest> => {
 function* registerSaga(action: PayloadAction<NewUser>) {
     yield put(setIsLoading(true));
     try {
-        const response: UserResponse = yield call(tryRegister, action.payload);
-        yield put(register(response.user));
+        const response: UserResponse = yield call(tryRegister, action.payload); 
+        yield put(login(response.user));        
         yield put(setIsLoading(false));
+        router.navigate('/');
     }
     catch (error) {
         console.error('register', error);
@@ -168,14 +168,12 @@ export const userSlice = createSlice({
         },
         update: (state, action: PayloadAction<User>) => {
             const user = action.payload;
-
             return {
                 ...state,
                 user: user,
             }
         }
     }
-
 });
 
 export const { setIsLoading, loadToken, register, login, logout, update } = userSlice.actions;

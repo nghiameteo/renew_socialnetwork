@@ -3,6 +3,7 @@ import Layout from "../features/list-features-page/layout-router-page";
 import SignIn from "../features/list-features-page/sign-in";
 import SignUp from "../features/list-features-page/sign-up";
 import Feed from "../features/list-features-page/feed";
+import Settings from "../features/list-features-page/setting";
 
 
 const Router = createBrowserRouter([
@@ -20,6 +21,10 @@ const Router = createBrowserRouter([
       {
         path: "/register",
         element: <SignUp />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
       },
       {
         path: "*",

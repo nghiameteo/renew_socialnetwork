@@ -8,7 +8,7 @@ import {
   styled,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { LoadTokenFromLocalStorage } from "../../../app/utils";
 import {
@@ -105,21 +105,23 @@ const Layout = () => {
             : PageLinks.pageLinksDefault
           ).map((page) => {
             return (
-              <Link
+              <NavLink
                 key={page.title}
                 to={page.link}
                 className={styles.navigateLink}
               >
-                <Typography className={styles.typoNavigateLink}>
-                  {page.title}
-                </Typography>
-              </Link>
+                {({ isActive}) => (
+                  <Typography className={isActive ? styles.typoNavigateLinkActive : styles.typoNavigateLink}>
+                    {page.title}
+                  </Typography>
+                )}
+              </NavLink>
             );
           })}
         </Box>
       </Container>
       <Outlet />
-      <Box className={styles.aboveFooter}> </Box>
+      <Box className={styles.aboveFooter}/>
       <Link className={styles.footerLink} to="/">
         <GitHubIcon />
         Fork on GitHub

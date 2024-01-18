@@ -32,6 +32,10 @@
           font-size: 1rem !important;
           color: rgba(0, 0, 0, 0.3);
         }
+        .typoNavigateLinkActive, .typoNavigateLink:hover {
+          font-size: 1rem !important;
+          color: rgba(0, 0, 0);
+        }
       }
     }
   }

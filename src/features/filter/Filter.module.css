@@ -1,0 +1,36 @@
+.boxContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background-color: #f3f3f3;  
+  padding: 10px;
+
+  .typoHeader {
+    color: rgb(55, 58, 60);
+  }
+  .stack {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.1rem;
+    .chip {
+        color: #fff;
+        background-color: #818a91;
+    }
+    .chip:hover {
+        color: #fff;
+        background-color: #687077;
+    }
+    .chipArticle {
+        color: #aaa;     
+    }
+    .chipArticle:hover {
+        color: #fff;
+        background-color: #687077;
+    }
+  }
+}

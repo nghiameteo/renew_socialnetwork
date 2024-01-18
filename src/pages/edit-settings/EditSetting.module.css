@@ -1,0 +1,39 @@
+.container {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+  .typoHeader {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  .linkContent {
+    text-decoration: none;
+    color: #5cb85c;
+    padding-bottom: 2rem;
+  }
+  .linkContent:hover {
+    text-decoration: underline;
+    color: #5cb85c;
+  }
+  .form {
+    width: 40% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    .box {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column;        
+        justify-content: flex-end;
+        align-items: end;
+        gap: 0.5rem;
+    }
+
+  }
+}

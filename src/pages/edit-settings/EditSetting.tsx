@@ -1,54 +1,99 @@
-import {
-  Box,
-  Container,
-  TextField,
-  Typography
-} from "@mui/material";
+import { Box, Button, ButtonProps, Container, TextField, Typography, styled } from "@mui/material";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import { LoginUser as UpdateUser, UpdateUser, User } from "../../app/models";
 import { GreenButton } from "../page-register/Register";
 import styles from "./EditSetting.module.css";
+import { UpdateUser, User } from "../../app/models";
 
-interface OwnProps {  
+interface OwnProps {
   isLoading: boolean;
-  user:User;
+  user: User;
   onSubmit: (data: UpdateUser) => void;
-  onLogout: ()=> void;
+  onLogout: () => void;
 }
 
-const SignInSchema = Yup.object().shape({
+export const RedButton = styled(Button)<ButtonProps>(() => ({
+  color: "#fff",
+  backgroundColor: "#F85149",
+  borderColor: "#F85149",
+  "&:hover": {
+    backgroundColor: "#F99515",
+  },
+}));
+
+const EditSettingSchema = Yup.object().shape({
+  username: Yup.string().trim().min(3, "Username too short"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password too short")
-    .max(50, "Password too long")
-    .required("Password is required"),
 });
 
-const EditSetting = ({ onSubmit, isLoading }: OwnProps) => {
+const EditSetting = ({ isLoading, user, onSubmit, onLogout }: OwnProps) => {
+  const initialUser = {
+    image: user.image,
+    username: user.username,
+    bio: user.bio,
+    email: user.email,
+    password: "",
+  };
   const formFromFormik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: SignInSchema,
-    onSubmit: ({ email, password }) => {
-      const data: UpdateUser = {
+    initialValues: initialUser,
+    validationSchema: EditSettingSchema,
+    onSubmit: ({ image, username, bio, email, password }, { resetForm }) => {
+      const editUser: UpdateUser = {
+        image,
+        username,
+        bio,
         email,
         password,
       };
-      onSubmit(data);
+      onSubmit(editUser);
+      resetForm();
     },
   });
 
   return (
     <Container className={styles.container} maxWidth="xl">
-      <Typography className={styles.typoHeader}>Sign In</Typography>
-      <Link className={styles.linkContent} to="/register">
-        Need an account?
-      </Link>
+      <Typography className={styles.typoHeader}>Settings</Typography>
       <form className={styles.form} onSubmit={formFromFormik.handleSubmit}>
+        <TextField
+          fullWidth
+          id="image"
+          name="image"
+          label="image"
+          value={formFromFormik.values.image}
+          onChange={formFromFormik.handleChange}
+          onBlur={formFromFormik.handleBlur}
+          helperText={
+            formFromFormik.touched.image && formFromFormik.errors.image
+          }
+        />
+        <TextField
+          fullWidth
+          id="username"
+          name="username"
+          label="username"
+          value={formFromFormik.values.username}
+          onChange={formFromFormik.handleChange}
+          onBlur={formFromFormik.handleBlur}
+          error={
+            formFromFormik.touched.username && Boolean(formFromFormik.errors.username)
+          }
+          helperText={
+            formFromFormik.touched.username && formFromFormik.errors.username
+          }
+        />
+        <TextField
+          fullWidth
+          id="bio"
+          name="bio"
+          label="bio"
+          value={formFromFormik.values.bio}
+          onChange={formFromFormik.handleChange}
+          onBlur={formFromFormik.handleBlur}
+          
+          helperText={
+            formFromFormik.touched.bio && formFromFormik.errors.bio
+          }
+        />
         <TextField
           fullWidth
           id="email"
@@ -88,8 +133,17 @@ const EditSetting = ({ onSubmit, isLoading }: OwnProps) => {
             size="large"
             disabled={isLoading}
           >
-            {isLoading ? "Processing" : "Sign In"}
+            {isLoading ? "Processing" : "Update Setting"}
           </GreenButton>
+          <RedButton
+            className={styles.button}
+            type="submit"
+            size="large"
+            onClick={onLogout}
+          >
+            or click here to logout
+          </RedButton>
+
         </Box>
       </form>
     </Container>
