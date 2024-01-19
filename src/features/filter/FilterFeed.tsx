@@ -1,7 +1,7 @@
 import { Box, Chip, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import styles from "./Filter.module.css";
+import styles from "./FilterFeed.module.css";
 import { findTag, getTagsAsync, selectTags } from "./filterTagSlice";
 
 const FilterFeed = () => {

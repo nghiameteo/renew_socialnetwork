@@ -87,7 +87,6 @@ const Layout = () => {
   const currentStoreToken = useAppSelector(selectToken);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(currentStoreToken, LoadTokenFromLocalStorage());
     if (!currentStoreToken && !!LoadTokenFromLocalStorage()) {
       dispatch(loadCurrentToken());
     }

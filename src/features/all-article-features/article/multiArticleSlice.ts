@@ -4,9 +4,19 @@ import { api } from "../../../app/axios-instance";
 import { Article, MultipleArticleResponse, SingleArticleResponse } from "../../../app/models";
 import { RootState } from "../../../app/store";
 
-export interface FavoritesArticleParams {
-    article: Article;
-    isFavorites: boolean;
+interface MultiArticlePagingState {
+    isLoading: boolean;
+    articles: Article[];
+    totalArticle: number;
+    page: number;
+    pageSize: number;
+}
+const initialState: MultiArticlePagingState = {
+    isLoading: false,
+    articles: [],
+    totalArticle: 0,
+    page: 0,
+    pageSize: 10,
 }
 
 interface MultiArticlePagingParams {
@@ -17,22 +27,6 @@ interface MultiArticlePagingParams {
     favorited?: string;
     feedFollow?: boolean;
 }
-interface MultiArticlePagingState {
-    isLoading: boolean;
-    articles: Article[];
-    totalArticle: number;
-    page: number;
-    pageSize: number;
-}
-
-const initialState: MultiArticlePagingState = {
-    isLoading: false,
-    articles: [],
-    totalArticle: 0,
-    page: 0,
-    pageSize: 10,
-}
-
 export const getMultiArticleAsync = createAction<MultiArticlePagingParams>('multiArticle/getMultiArticleAsync');
 const tryGetMultiArticle = async (params: MultiArticlePagingParams | undefined): Promise<MultipleArticleResponse> => {
     const url = params?.feedFollow ? '/articles/feed' : '/articles';
@@ -60,6 +54,11 @@ function* getMultiArticleSaga(action: PayloadAction<MultiArticlePagingParams | u
         yield put(setIsLoading(false));
     }
 }
+
+export interface FavoritesArticleParams {
+    article: Article;
+    isFavorites: boolean;
+}
 export const toggleFavoritedMultiArticleAsync = createAction<FavoritesArticleParams>('multiArticle/toggleFavoritedMultiArticleAsync')
 const tryToggleFavoritedMultiArticle = async (params: FavoritesArticleParams): Promise<SingleArticleResponse> => {
     const url = `/articles/${params?.article.slug}/favorite`;
@@ -73,7 +72,7 @@ const tryToggleFavoritedMultiArticle = async (params: FavoritesArticleParams): P
 function* toggleFavoritedMultiArticleSaga(action: PayloadAction<FavoritesArticleParams>) {
     try {
         const newArticle = action.payload.article;
-        const predictArticle = { favorited: !newArticle.favorited, favoritesCount: newArticle.favoritesCount + (newArticle.favorited ? 1 : -1) }
+        const predictArticle = { favorited: !newArticle.favorited, favoritesCount: newArticle.favoritesCount + (newArticle.favorited ? -1 : +1) }
         yield put(changeFavorite({ ...newArticle, favorited: predictArticle.favorited, favoritesCount: predictArticle.favoritesCount }));
         const response: SingleArticleResponse = yield call(tryToggleFavoritedMultiArticle, action.payload);
         yield put(changeFavorite(response.article))

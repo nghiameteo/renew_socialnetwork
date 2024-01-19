@@ -1,8 +1,8 @@
+import { Pagination, PaginationItem } from "@mui/material";
 import { useState } from "react";
 import { Article } from "../../app/models";
 import ArticleSingleItem from "../article-single-item/ArticleSingleItem";
 import styles from "./ArticleListSingleItem.module.css";
-import { Pagination, PaginationItem } from "@mui/material";
 
 interface OwnProps {
   articles: Article[];
@@ -23,15 +23,15 @@ const ArticleListSingleItem = ({
   const [activePage, setActivePage] = useState(page + 1);
   const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
     onPageChange(value);
-    setActivePage(value);
+    setActivePage(value); 
   };
   return (
     <>
       {articles.map((article) => (
-        <ArticleSingleItem article={article} />
+        <ArticleSingleItem key={article.slug} article={article} />
       ))}
       <Pagination
-        className={styles.pagination}
+        className={styles.paginationContainer}
         variant="outlined"
         shape="rounded"
         hideNextButton
@@ -39,13 +39,15 @@ const ArticleListSingleItem = ({
         siblingCount={count}
         count={count}
         defaultPage={1}
-        page={activePage}
+        page={page + 1}
         onChange={handleChangePage}
         renderItem={(item) => (
           <PaginationItem
             {...item}
             className={
-              item.page == activePage ? styles.activePage : styles.nonactivePage
+              item.page == activePage
+                ? styles.activePaginationPage
+                : styles.pendingPaginationPage
             }
           />
         )}

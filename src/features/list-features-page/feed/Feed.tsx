@@ -2,7 +2,10 @@ import { Box, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import ArticleListSingleItem from "../../../pages/article-list-single-item/ArticleListSingleItem";
-import { getMultiArticleAsync, selectMultiArticle } from "../../all-article-features/article/multiArticleSlice";
+import {
+  getMultiArticleAsync,
+  selectMultiArticle,
+} from "../../all-article-features/article/multiArticleSlice";
 import FilterFeed from "../../filter/FilterFeed";
 import { cleanTag, selectTag } from "../../filter/filterTagSlice";
 import { selectIsAuthorized } from "../../user-information-feature/userInformationSlice";
@@ -30,8 +33,8 @@ const Feed = () => {
   const dispatch = useAppDispatch();
   const isAuthorized = useAppSelector(selectIsAuthorized);
   const tag = useAppSelector(selectTag);
-  const articlesData= useAppSelector(selectMultiArticle);
-  const {articles, totalArticle, page, pageSize, isLoading} = articlesData;
+  const articlesData = useAppSelector(selectMultiArticle);
+  const { articles, totalArticle, page, pageSize, isLoading } = articlesData;
   const [activeTab, setActiveTab] = useState<string>(
     TabInformation.globalFeed.value
   );
@@ -57,16 +60,21 @@ const Feed = () => {
   }, [isAuthorized, activeTab, tag]);
 
   const onActiveTabAndPageChange = (page: number) => {
-    if ((activeTab === TabInformation.filter.value)) {
+    if (activeTab === TabInformation.filter.value) {
       dispatch(getMultiArticleAsync({ page, tag }));
     } else if (activeTab === TabInformation.followFeed.value) {
       dispatch(getMultiArticleAsync({ page, feedFollow: true }));
     } else {
-      dispatch(getMultiArticleAsync({page}));
+      dispatch(getMultiArticleAsync({ page }));
     }
   };
 
-  useEffect(()=>{onActiveTabAndPageChange(1)},[activeTab])
+  useEffect(() => {
+    onActiveTabAndPageChange(1);
+    if (activeTab !== TabInformation.filter.value) {
+      dispatch(cleanTag());
+    }
+  }, [activeTab,tag]);
 
   useEffect(() => {
     dispatch(cleanTag());
@@ -118,7 +126,17 @@ const Feed = () => {
               </Tabs>
             </Box>
             <Box className={styles.boxTab}>
-              <ArticleListSingleItem articles={articles} totalArticle={totalArticle} page={page} pageSize={pageSize} onPageChange={onActiveTabAndPageChange} />
+              {isLoading && <Typography>Loading...</Typography>}
+              {!isLoading && totalArticle === 0 && <Typography> No article here</Typography>}
+              {!isLoading && totalArticle > 0 && (
+                <ArticleListSingleItem
+                  articles={articles}
+                  totalArticle={totalArticle}
+                  page={page}
+                  pageSize={pageSize}
+                  onPageChange={onActiveTabAndPageChange}
+                />
+              )}
             </Box>
           </Grid>
           <Grid className={styles.gridFilter} item xs={4}>

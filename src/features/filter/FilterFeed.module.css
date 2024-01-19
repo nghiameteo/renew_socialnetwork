@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 0.5rem;
-  background-color: #f3f3f3;  
+  background-color: #f3f3f3 !important;  
   padding: 10px;
 
   .typoHeader {
@@ -24,13 +24,6 @@
     .chip:hover {
         color: #fff;
         background-color: #687077;
-    }
-    .chipArticle {
-        color: #aaa;     
-    }
-    .chipArticle:hover {
-        color: #fff;
-        background-color: #687077;
-    }
+    }    
   }
 }

@@ -1,6 +1,6 @@
-import { Chip, Stack } from "@mui/material";
+import { Box, Chip, Stack } from "@mui/material";
 import { useAppDispatch } from "../../app/hooks";
-import styles from "./Filter.module.css";
+import styles from "./FilterArticle.module.css";
 import { findTag } from "./filterTagSlice";
 
 interface OwnProps {

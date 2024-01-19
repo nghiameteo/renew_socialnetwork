@@ -1,0 +1,16 @@
+.stack {
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.1rem;
+  
+    .chipArticle {
+        color: #aaa;     
+    }
+    .chipArticle:hover {
+      color: #373a3c;
+      background-color: #818a91;
+    }
+  }

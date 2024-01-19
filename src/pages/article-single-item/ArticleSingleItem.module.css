@@ -1,0 +1,47 @@
+.cardContainer {
+  box-shadow: none !important;
+  .cardHeader {
+    .linkUser {
+      text-decoration: none;
+      color: #5cb85c;
+      font-weight: 500;
+    }
+    .linkUser:hover {
+      text-decoration: underline;
+      color: #3d8b3d;
+    }
+    .date {
+      color: #bbb;
+    }
+  }
+
+  .cardContent {
+
+    .title {
+        color: #373a3c;
+        font-weight: bold;
+    }
+    .description {
+        color: #999999;
+    }
+  }
+  .cardAction {
+    justify-content: space-between;
+    .link {
+      text-decoration: none;
+      .typoReadMore {
+        color: #bbb;
+      }
+    }
+    .tagList{
+        display: flex;
+        flex-direction: row;
+    }
+  }
+  .divider {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+}
+.cardContainer:last-of-type .divider {
+  display: none;
+}

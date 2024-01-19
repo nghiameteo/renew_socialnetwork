@@ -21,21 +21,21 @@ const tryGetTags = async (): Promise<TagsResponse> => {
     return (await api.get<TagsResponse>('/tags')).data;
 }
 
-function* tagsSaga() {
+function* getTagsSaga() {
     try {
         yield put(setIsLoading(true));
         const response: TagsResponse = yield call(tryGetTags);
         yield put(loadTags(response));
         yield put(setIsLoading(false));
     }
-    catch (error) {        
+    catch (error) {
         console.error('tagsSaga', error);
         yield put(setIsLoading(false));
     }
 }
 
 export function* filterSaga() {
-    yield takeLatest(getTagsAsync, tagsSaga)
+    yield takeLatest(getTagsAsync, getTagsSaga)
 }
 
 export const filterSlice = createSlice({
@@ -43,22 +43,22 @@ export const filterSlice = createSlice({
     initialState,
     reducers: {
         setIsLoading: (state, action: PayloadAction<boolean>) => {
-            return {...state, isLoading: action.payload}
+            return { ...state, isLoading: action.payload }
         },
         loadTags: (state, action: PayloadAction<TagsResponse>) => {
-            return {...state, tags: action.payload.tags}
+            return { ...state, tags: action.payload.tags }
         },
         findTag: (state, action: PayloadAction<Tag>) => {
-            return {...state, tag: action.payload.tag}
+            return { ...state, tag: action.payload.tag }
         },
         cleanTag: (state) => {
-            return {...state, tag: undefined}
+            return { ...state, tag: undefined }
         },
 
     }
 });
 
-export const {setIsLoading, loadTags, findTag, cleanTag} = filterSlice.actions;
+export const { setIsLoading, loadTags, findTag, cleanTag } = filterSlice.actions;
 export const selectFilter = (state: RootState) => state.filter;
 export const selectTags = (state: RootState) => state.filter.tags;
 export const selectTag = (state: RootState) => state.filter.tag;
