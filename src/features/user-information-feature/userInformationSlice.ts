@@ -41,6 +41,7 @@ function* logoutSaga() {
     try {
         yield put(setIsLoading(true));
         yield put(logout());
+        // todo: use function from utils
         localStorage.removeItem('token');
         yield put(setIsLoading(false));
         router.navigate('/login')
@@ -62,6 +63,7 @@ function* loginSaga(action: PayloadAction<LoginUser>) {
     yield put(setIsLoading(true));
     try {
         const response: UserResponse = yield call(tryLogin, action.payload);
+        // todo: use function from utils
         localStorage.setItem('token', response.user.token);
         yield put(login(response.user));
         yield put(setIsLoading(false));
@@ -116,6 +118,7 @@ function* getCurrentUserSaga() {
 export const loadCurrentToken = createAction('user/loadCurrentToken');
 
 function* loadCurrentTokenSaga() {
+    // todo: use function from utils
     const currentToken = localStorage.getItem('token');
     if (!!currentToken && currentToken !== '') {
         yield put(loadToken(currentToken!));

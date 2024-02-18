@@ -38,6 +38,18 @@
         }
       }
     }
+    .linkUser{
+      text-decoration: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 0.1rem;
+      .avatar{
+        width: 30px;
+        height: 30px;
+      }
+    }
   }
   .aboveFooter {
     min-height: 50px;

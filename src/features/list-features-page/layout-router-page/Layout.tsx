@@ -1,10 +1,12 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import {
+  Avatar,
   Box,
   Button,
   ButtonProps,
   Container,
   Typography,
+  capitalize,
   styled,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -15,6 +17,7 @@ import {
   loadCurrentToken,
   selectIsAuthorized,
   selectToken,
+  selectUser,
 } from "../../user-information-feature/userInformationSlice";
 import styles from "./Layout.module.css";
 interface SettingUrl {
@@ -85,7 +88,9 @@ const Layout = () => {
   const dispatch = useAppDispatch();
   const isAuthorized = useAppSelector(selectIsAuthorized);
   const currentStoreToken = useAppSelector(selectToken);
+  const currentUser = useAppSelector(selectUser);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!currentStoreToken && !!LoadTokenFromLocalStorage()) {
       dispatch(loadCurrentToken());
@@ -117,6 +122,12 @@ const Layout = () => {
               </NavLink>
             );
           })}
+          {!!currentUser &&
+          <Link className={styles.linkUser} to={`/${currentUser.username}`} title={currentUser.username}>
+            <Avatar className={styles.avatar} alt={capitalize(currentUser.username)} src={currentUser.image}/>
+            <Typography className={styles.typoUserName}>{currentUser.username}</Typography>
+          </Link>
+          }
         </Box>
       </Container>
       <Outlet />

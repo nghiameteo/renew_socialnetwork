@@ -1,0 +1,36 @@
+.formContainer {
+  width: 65% !important;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  .linkAvatar {
+    text-decoration: none !important;
+    .avatarWriteCmt {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+  .form {
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}
+.containerShowComment {
+  width: 65% !important;
+  .cardContainer {
+    box-shadow: none !important;
+    .link {
+      text-decoration: none;
+    }
+    .author {
+      color: #5cb85c;
+    }
+    .date {
+      color: #bbb;
+    }
+  }
+}

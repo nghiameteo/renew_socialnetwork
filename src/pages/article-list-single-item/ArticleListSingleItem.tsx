@@ -23,35 +23,37 @@ const ArticleListSingleItem = ({
   const [activePage, setActivePage] = useState(page + 1);
   const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
     onPageChange(value);
-    setActivePage(value); 
+    setActivePage(value);
   };
   return (
     <>
       {articles.map((article) => (
         <ArticleSingleItem key={article.slug} article={article} />
       ))}
-      <Pagination
-        className={styles.paginationContainer}
-        variant="outlined"
-        shape="rounded"
-        hideNextButton
-        hidePrevButton
-        siblingCount={count}
-        count={count}
-        defaultPage={1}
-        page={page + 1}
-        onChange={handleChangePage}
-        renderItem={(item) => (
-          <PaginationItem
-            {...item}
-            className={
-              item.page == activePage
-                ? styles.activePaginationPage
-                : styles.pendingPaginationPage
-            }
-          />
-        )}
-      />
+      {count > 1 && (
+        <Pagination
+          className={styles.paginationContainer}
+          variant="outlined"
+          shape="rounded"
+          hideNextButton
+          hidePrevButton
+          siblingCount={count}
+          count={count}
+          defaultPage={1}
+          page={page + 1}
+          onChange={handleChangePage}
+          renderItem={(item) => (
+            <PaginationItem
+              {...item}
+              className={
+                item.page == activePage
+                  ? styles.activePaginationPage
+                  : styles.pendingPaginationPage
+              }
+            />
+          )}
+        />
+      )}
     </>
   );
 };

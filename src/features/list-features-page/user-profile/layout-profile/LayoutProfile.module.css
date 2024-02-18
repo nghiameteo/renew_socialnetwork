@@ -1,0 +1,35 @@
+.boxHeader {
+  width: 100%;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .headerContainer {
+    padding: 32px 8px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    .avatar {
+      width: 100px;
+      height: 100px;
+    }
+    .typoUsername {
+      color: #373a3c;
+      font-size: 1.5rem;
+      font-weight: 700 !important;
+    }
+    .boxFlexEnd {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+.boxOutlet {
+  width: 80%;
+}

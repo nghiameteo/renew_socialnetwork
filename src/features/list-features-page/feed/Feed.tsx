@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import ArticleListSingleItem from "../../../pages/article-list-single-item/ArticleListSingleItem";
@@ -41,15 +41,11 @@ const Feed = () => {
   const tabItems = useMemo((): TabList[] => {
     const tabsItems: TabList[] = [];
     if (isAuthorized) {
-      tabsItems.push({
-        value: TabInformation.followFeed.value,
-        label: TabInformation.followFeed.label,
-      });
+      // todo: => tabsItems.push(TabInformation.followFeed);
+      tabsItems.push(TabInformation.followFeed);
     }
-    tabsItems.push({
-      value: TabInformation.globalFeed.value,
-      label: TabInformation.globalFeed.label,
-    });
+    // todo: => tabsItems.push(TabInformation.globalFeed);
+    tabsItems.push(TabInformation.globalFeed);
     if (!!tag && tag !== "" && activeTab == TabInformation.filter.value) {
       tabsItems.push({
         value: TabInformation.filter.value,
@@ -74,7 +70,7 @@ const Feed = () => {
     if (activeTab !== TabInformation.filter.value) {
       dispatch(cleanTag());
     }
-  }, [activeTab,tag]);
+  }, [activeTab, tag]);
 
   useEffect(() => {
     dispatch(cleanTag());
@@ -126,8 +122,10 @@ const Feed = () => {
               </Tabs>
             </Box>
             <Box className={styles.boxTab}>
-              {isLoading && <Typography>Loading...</Typography>}
-              {!isLoading && totalArticle === 0 && <Typography> No article here</Typography>}
+              {isLoading && <CircularProgress size={20}/>}
+              {!isLoading && totalArticle === 0 && (
+                <Typography> No article here</Typography>
+              )}
               {!isLoading && totalArticle > 0 && (
                 <ArticleListSingleItem
                   articles={articles}

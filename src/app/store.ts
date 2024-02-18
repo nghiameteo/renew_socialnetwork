@@ -5,6 +5,9 @@ import saga from "./saga";
 import userReducer from "../features/user-information-feature/userInformationSlice";
 import filterReducer from "../features/filter/filterTagSlice";
 import multiArticleReducer from "../features/all-article-features/article/multiArticleSlice";
+import singleArticleReducer from "../features/all-article-features/article/singleArticleSlice";
+import commentReducer from "../features/comment-feature/commentSlice";
+import userProfileReducer from "../features/list-features-page/user-profile/userProfileSlice";
 
 const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
@@ -12,6 +15,9 @@ export const store = configureStore({
         user: userReducer,
         filter: filterReducer,
         multiArticle: multiArticleReducer,
+        singleArticle: singleArticleReducer,
+        comment: commentReducer,
+        userProfile: userProfileReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(sagaMiddleware)

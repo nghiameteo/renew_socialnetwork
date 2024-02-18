@@ -1,0 +1,66 @@
+.boxContainerLvl1 {
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  .boxContainerHeaderLvl2 {
+    width: 100%;
+    background-color: #333 !important;
+    color: white;
+    padding: 1.5rem 0;
+    .containerHeader {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      padding: 8px 16px;
+      .typoH3 {
+      }
+      .gridContainer {
+        margin-top: 0.5rem;
+        justify-content: flex-start;
+
+        .linkAvatar {
+          text-decoration: none;
+        }
+        .gridItemContainerSortColumn {
+          display: flex !important;
+          flex-direction: column !important;
+
+          .linkUsername {
+            text-decoration: none;
+            color: #5cb85c !important;
+          }
+          .linkUsername:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .containerFooter {
+    padding: 16px;
+    .boxFooter {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      padding: 0 ;
+      .typoFooter {
+        color: #373a3c;
+      }
+    }
+  }
+}
+
+.buttonContainer{
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: .2rem !important;
+
+}

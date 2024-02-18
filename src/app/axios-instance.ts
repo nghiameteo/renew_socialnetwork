@@ -1,14 +1,14 @@
 import axios from "axios";
+import { LoadTokenFromLocalStorage } from "./utils";
 // base URL 
-export const api=axios.create({
+export const api = axios.create({
     baseURL: 'https://node-express-conduit.appspot.com/api',
 })
 
 //interceptors
-api.interceptors.request.use((config)=> {
-    const token= localStorage.getItem('token');
-    if (token) {
-        config.headers.set('Authorization', 'Bearer ' + token);        
+api.interceptors.request.use((config) => {
+    if (LoadTokenFromLocalStorage()) {
+        config.headers.set('Authorization', 'Bearer ' + LoadTokenFromLocalStorage());
     }
     return config;
 })
