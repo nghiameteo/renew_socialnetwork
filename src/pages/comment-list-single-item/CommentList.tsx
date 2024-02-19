@@ -31,8 +31,11 @@ interface OwnProps {
   onDelete: (id: number) => void;
 }
 
-const CmntSchema = Yup.object().shape({
-  body: Yup.string().min(1, "Comment too short"),
+const CommentSchema = Yup.object().shape({
+  body: Yup.string()
+    .trim()
+    .required("Need write something")
+    .min(1, "Comment too short"),
 });
 
 const CommentList = ({
@@ -48,7 +51,7 @@ const CommentList = ({
     initialValues: {
       body: "",
     },
-    validationSchema: CmntSchema,
+    validationSchema: CommentSchema,
     onSubmit: ({ body }, { resetForm }) => {
       const bodyCmt: NewComment = { body };
       onSubmit(bodyCmt);
@@ -79,15 +82,17 @@ const CommentList = ({
               value={formik.values.body}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.body && Boolean(formik.errors.body)}
-              helperText={formik.touched.body && formik.errors.body}
             />
             <GreenButton
               variant="contained"
               type="submit"
-              disabled={isLoadingAddComment}
+              disabled={isLoadingAddComment || Boolean(formik.errors.body)}
             >
-              {isLoadingAddComment ? <CircularProgress size={20}/> : "Post Comment"}
+              {isLoadingAddComment ? (
+                <CircularProgress size={20} />
+              ) : (
+                "Post Comment"
+              )}
             </GreenButton>
           </form>
         </Container>
@@ -99,7 +104,9 @@ const CommentList = ({
             color="error"
             loadingPosition="start"
             startIcon={<>icon</>}
-          >Wait load Comment</LoadingButton>
+          >
+            Wait load Comment
+          </LoadingButton>
         </Container>
       ) : (
         <Container className={styles.containerShowComment}>
