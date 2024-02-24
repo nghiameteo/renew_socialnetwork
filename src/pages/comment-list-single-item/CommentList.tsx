@@ -9,12 +9,12 @@ import {
   CircularProgress,
   Container,
   Divider,
-  IconButton,
   TextField,
   Typography,
-  capitalize,
+  capitalize
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { Comment, ConvertDate, NewComment, User } from "../../app/models";
@@ -47,6 +47,7 @@ const CommentList = ({
   onSubmit,
   onDelete,
 }: OwnProps) => {
+  const [touchComment, setTouchComment] = useState<number>(NaN);
   const formik = useFormik({
     initialValues: {
       body: "",
@@ -58,6 +59,13 @@ const CommentList = ({
       resetForm({});
     },
   });
+  const onDeleteComment = (id: number) => {
+    setTouchComment(id);
+    onDelete(id);
+    setTimeout(() => {
+      setTouchComment(NaN);
+    }, 3000);
+  };
   return (
     <>
       {!!currentUser && (
@@ -121,16 +129,9 @@ const CommentList = ({
                     action={
                       currentUser?.username == comment.author.username && (
                         <>
-                          {/* <IconButton
-                          onClick={() => onDelete(comment.id)}
-                          size="small"
-                        >
-                          <DeleteIcon fontSize="inherit" />
-                        </IconButton> */}
-
                           <LoadingButton
-                            loading={isLoadingDeleteComment}
-                            onClick={() => onDelete(comment.id)}
+                            loading={isLoadingDeleteComment&& comment.id==touchComment}
+                            onClick={() => onDeleteComment(comment.id)}
                             color="error"
                             loadingPosition="start"
                             startIcon={<DeleteIcon />}

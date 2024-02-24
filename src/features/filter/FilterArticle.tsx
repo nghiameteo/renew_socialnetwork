@@ -1,22 +1,19 @@
-import { Box, Chip, Stack } from "@mui/material";
+import { Chip, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import styles from "./FilterArticle.module.css";
 import { findTag } from "./filterTagSlice";
-import { useNavigate } from "react-router-dom";
 
 interface OwnProps {
   tags: string[];
 }
 const FilterArticle = ({ tags }: OwnProps) => {
   const dispatch = useAppDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const onFindTag = (value: string) => {
-    navigate('/')
-    setTimeout(() => {
-      dispatch(findTag({ tag: value }));
-    }, 2000);
-    
+    dispatch(findTag({ tag: value }));
+    navigate("/");
   };
 
   return (

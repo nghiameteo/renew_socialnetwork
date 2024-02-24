@@ -10,13 +10,12 @@ import {
   styled,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { LoadTokenFromLocalStorage } from "../../../app/utils";
 import {
   loadCurrentToken,
   selectIsAuthorized,
-  selectToken,
+  selectIsReady,
   selectUser,
 } from "../../user-information-feature/userInformationSlice";
 import styles from "./Layout.module.css";
@@ -86,57 +85,75 @@ const PageLinks: totalSettingUrl = {
 
 const Layout = () => {
   const dispatch = useAppDispatch();
+  const isReady = useAppSelector(selectIsReady);
   const isAuthorized = useAppSelector(selectIsAuthorized);
-  const currentStoreToken = useAppSelector(selectToken);
   const currentUser = useAppSelector(selectUser);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!currentStoreToken && !!LoadTokenFromLocalStorage()) {
+    if (!isReady) {
       dispatch(loadCurrentToken());
     }
-  }, [currentStoreToken, loadCurrentToken, LoadTokenFromLocalStorage]);
-  return (
-    <Box className={styles.boxLayout}>
-      <Container className={styles.container} maxWidth="xl">
-        <Link to="/" className={styles.leftContentLink}>
-          <Typography className={styles.typoConduit}>conduit</Typography>
-        </Link>
+  }, [isReady]);
 
-        <Box className={styles.rightContentBox}>
-          {(isAuthorized
-            ? PageLinks.pageLinksAuthorize
-            : PageLinks.pageLinksDefault
-          ).map((page) => {
-            return (
-              <NavLink
-                key={page.title}
-                to={page.link}
-                className={styles.navigateLink}
-              >
-                {({ isActive}) => (
-                  <Typography className={isActive ? styles.typoNavigateLinkActive : styles.typoNavigateLink}>
-                    {page.title}
-                  </Typography>
-                )}
-              </NavLink>
-            );
-          })}
-          {!!currentUser &&
-          <Link className={styles.linkUser} to={`/${currentUser.username}`} title={currentUser.username}>
-            <Avatar className={styles.avatar} alt={capitalize(currentUser.username)} src={currentUser.image}/>
-            <Typography className={styles.typoUserName}>{currentUser.username}</Typography>
+  return (
+    isReady && (
+      <Box className={styles.boxLayout}>
+        <Container className={styles.container} maxWidth="xl">
+          <Link to="/" className={styles.leftContentLink}>
+            <Typography className={styles.typoConduit}>conduit</Typography>
           </Link>
-          }
-        </Box>
-      </Container>
-      <Outlet />
-      <Box className={styles.aboveFooter}/>
-      <Link className={styles.footerLink} to="/">
-        <GitHubIcon />
-        Fork on GitHub
-      </Link>
-    </Box>
+
+          <Box className={styles.rightContentBox}>
+            {(isAuthorized
+              ? PageLinks.pageLinksAuthorize
+              : PageLinks.pageLinksDefault
+            ).map((page) => {
+              return (
+                <NavLink
+                  key={page.title}
+                  to={page.link}
+                  className={styles.navigateLink}
+                >
+                  {({ isActive }) => (
+                    <Typography
+                      className={
+                        isActive
+                          ? styles.typoNavigateLinkActive
+                          : styles.typoNavigateLink
+                      }
+                    >
+                      {page.title}
+                    </Typography>
+                  )}
+                </NavLink>
+              );
+            })}
+            {!!currentUser && (
+              <Link
+                className={styles.linkUser}
+                to={`/${currentUser.username}`}
+                title={currentUser.username}
+              >
+                <Avatar
+                  className={styles.avatar}
+                  alt={capitalize(currentUser.username)}
+                  src={currentUser.image}
+                />
+                <Typography className={styles.typoUserName}>
+                  {currentUser.username}
+                </Typography>
+              </Link>
+            )}
+          </Box>
+        </Container>
+        <Outlet />
+        <Box className={styles.aboveFooter} />
+        <Link className={styles.footerLink} to="/">
+          <GitHubIcon />
+          Fork on GitHub
+        </Link>
+      </Box>
+    )
   );
 };
 

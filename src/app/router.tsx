@@ -10,7 +10,6 @@ import UpdateArticle from "../features/all-article-features/article/update-artic
 import UserProfile from "../features/list-features-page/user-profile/user-profile/UserProfile";
 import LayoutProfile from "../features/list-features-page/user-profile/layout-profile/LayoutProfile";
 
-
 const Router = createBrowserRouter([
   {
     element: <Layout />,
@@ -55,7 +54,7 @@ const Router = createBrowserRouter([
             path: "favorites",
             element: <UserProfile tab="favoriteArticle" />,
           },
-        ]
+        ],
       },
       {
         path: "*",

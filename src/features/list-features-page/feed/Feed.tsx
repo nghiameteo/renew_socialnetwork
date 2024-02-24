@@ -1,4 +1,12 @@
-import { Box, CircularProgress, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import ArticleListSingleItem from "../../../pages/article-list-single-item/ArticleListSingleItem";
@@ -36,15 +44,17 @@ const Feed = () => {
   const articlesData = useAppSelector(selectMultiArticle);
   const { articles, totalArticle, page, pageSize, isLoading } = articlesData;
   const [activeTab, setActiveTab] = useState<string>(
-    TabInformation.globalFeed.value
+    !!tag
+      ? TabInformation.filter.value
+      : isAuthorized
+      ? TabInformation.followFeed.value
+      : TabInformation.globalFeed.value
   );
   const tabItems = useMemo((): TabList[] => {
     const tabsItems: TabList[] = [];
     if (isAuthorized) {
-      // todo: => tabsItems.push(TabInformation.followFeed);
       tabsItems.push(TabInformation.followFeed);
     }
-    // todo: => tabsItems.push(TabInformation.globalFeed);
     tabsItems.push(TabInformation.globalFeed);
     if (!!tag && tag !== "" && activeTab == TabInformation.filter.value) {
       tabsItems.push({
@@ -64,28 +74,38 @@ const Feed = () => {
       dispatch(getMultiArticleAsync({ page }));
     }
   };
+  // lost token
+  useEffect(() => {
+    if (!isAuthorized && !tag) {
+      setActiveTab(TabInformation.globalFeed.value);
+    }
+  }, [isAuthorized, tag]);
 
   useEffect(() => {
     onActiveTabAndPageChange(1);
+
     if (activeTab !== TabInformation.filter.value) {
       dispatch(cleanTag());
     }
-  }, [activeTab, tag]);
+  }, [activeTab]);
 
   useEffect(() => {
-    dispatch(cleanTag());
-    if (isAuthorized) {
-      setActiveTab(TabInformation.followFeed.value);
-    } else {
-      setActiveTab(TabInformation.globalFeed.value);
-    }
-  }, [isAuthorized]);
-
-  useEffect(() => {
-    if (!!tag && activeTab !== TabInformation.filter.value) {
-      setActiveTab(TabInformation.filter.value);
+    if (!!tag) {
+      if (activeTab !== TabInformation.filter.value) {
+        setActiveTab(TabInformation.filter.value);
+      }
+      // same filter tab but use another value
+      else {
+        onActiveTabAndPageChange(1);
+      }
     }
   }, [tag]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(cleanTag());
+    };
+  }, []);
 
   return (
     <>
@@ -122,7 +142,7 @@ const Feed = () => {
               </Tabs>
             </Box>
             <Box className={styles.boxTab}>
-              {isLoading && <CircularProgress size={20}/>}
+              {isLoading && <CircularProgress size={20} />}
               {!isLoading && totalArticle === 0 && (
                 <Typography> No article here</Typography>
               )}

@@ -5,5 +5,13 @@ export const LoadTokenFromLocalStorage = (): string | undefined | null => {
 }
 
 export const SaveTokenToLocalStorage = (token: string | undefined) => {
-    
+    if (!token) {
+        ClearTokenToLocalStorage();
+    } else {
+        localStorage.setItem(tokenKey, token);
+    }
+}
+
+export const ClearTokenToLocalStorage = () => {
+    localStorage.removeItem(tokenKey);
 }

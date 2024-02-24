@@ -1,0 +1,20 @@
+.container {
+  .boxTabs {
+    .tabs {
+      .pendingTab {
+        text-transform: none;
+        color: #aaa;
+      }
+      .pendingTab:hover {
+        text-transform: none;
+        color: #555a76;
+      }
+      .activeTab {
+        text-transform: none;
+        color: #5cb85c;
+      }
+    }
+  }
+  .boxTab {
+  }
+}

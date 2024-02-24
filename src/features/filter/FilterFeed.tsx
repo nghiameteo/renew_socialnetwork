@@ -11,9 +11,11 @@ const FilterFeed = () => {
   const onFindTag = (value: string) => {
     dispatch(findTag({ tag: value }));
   };
+
   useEffect(() => {
     dispatch(getTagsAsync());
   }, []);
+
   return (
     <>
       <Box className={styles.boxContainer}>

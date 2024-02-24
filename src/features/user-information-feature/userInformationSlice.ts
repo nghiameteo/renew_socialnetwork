@@ -1,16 +1,19 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginUser, NewUser, NewUserRequest, UpdateUser, User, UserResponse } from "../../app/models";
-import { api } from "../../app/axios-instance";
 import { call, put, takeLatest } from "redux-saga/effects";
-import { RootState } from "../../app/store";
+import { api } from "../../app/axios-instance";
+import { LoginUser, NewUser, NewUserRequest, UpdateUser, User, UserResponse } from "../../app/models";
 import router from "../../app/router";
+import { RootState } from "../../app/store";
+import { ClearTokenToLocalStorage, LoadTokenFromLocalStorage, SaveTokenToLocalStorage } from "../../app/utils";
 interface UserState {
+    isReady: boolean;
     isAuthorized: boolean;
     isLoading: boolean;
     token?: string;
     user?: User;
 }
 const initialState: UserState = {
+    isReady: false,
     isAuthorized: false,
     isLoading: false,
 }
@@ -41,8 +44,7 @@ function* logoutSaga() {
     try {
         yield put(setIsLoading(true));
         yield put(logout());
-        // todo: use function from utils
-        localStorage.removeItem('token');
+        ClearTokenToLocalStorage();
         yield put(setIsLoading(false));
         router.navigate('/login')
     }
@@ -63,8 +65,7 @@ function* loginSaga(action: PayloadAction<LoginUser>) {
     yield put(setIsLoading(true));
     try {
         const response: UserResponse = yield call(tryLogin, action.payload);
-        // todo: use function from utils
-        localStorage.setItem('token', response.user.token);
+        SaveTokenToLocalStorage(response.user.token);
         yield put(login(response.user));
         yield put(setIsLoading(false));
         router.navigate('/');
@@ -86,8 +87,8 @@ const tryRegister = async (data: NewUser): Promise<NewUserRequest> => {
 function* registerSaga(action: PayloadAction<NewUser>) {
     yield put(setIsLoading(true));
     try {
-        const response: UserResponse = yield call(tryRegister, action.payload); 
-        yield put(login(response.user));        
+        const response: UserResponse = yield call(tryRegister, action.payload);
+        yield put(login(response.user));
         yield put(setIsLoading(false));
         router.navigate('/');
     }
@@ -118,8 +119,7 @@ function* getCurrentUserSaga() {
 export const loadCurrentToken = createAction('user/loadCurrentToken');
 
 function* loadCurrentTokenSaga() {
-    // todo: use function from utils
-    const currentToken = localStorage.getItem('token');
+    const currentToken = LoadTokenFromLocalStorage();;
     if (!!currentToken && currentToken !== '') {
         yield put(loadToken(currentToken!));
         yield call(getCurrentUserSaga);
@@ -145,6 +145,7 @@ export const userSlice = createSlice({
         },
         loadToken: (_, action: PayloadAction<string>) => {
             return {
+                isReady: true,
                 isAuthorized: true,
                 isLoading: false,
                 token: action.payload,
@@ -157,6 +158,7 @@ export const userSlice = createSlice({
         login: (_, action: PayloadAction<User>) => {
             const user = action.payload;
             return {
+                isReady: true,
                 isAuthorized: true,
                 isLoading: false,
                 token: user.token,
@@ -165,6 +167,7 @@ export const userSlice = createSlice({
         },
         logout: () => {
             return {
+                isReady: true,
                 isLoading: false,
                 isAuthorized: false,
             }
@@ -185,5 +188,6 @@ export const selectIsAuthorized = (state: RootState) => state.user.isAuthorized;
 export const selectIsLoading = (state: RootState) => state.user.isLoading;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectToken = (state: RootState) => state.user.token;
+export const selectIsReady = (state: RootState) => state.user.isReady;
 
 export default userSlice.reducer
