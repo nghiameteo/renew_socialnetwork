@@ -79,24 +79,25 @@ const Feed = () => {
     if (!isAuthorized && !tag) {
       setActiveTab(TabInformation.globalFeed.value);
     }
+    console.log(tag);
   }, [isAuthorized, tag]);
 
   useEffect(() => {
-    onActiveTabAndPageChange(1);
+    if (activeTab !== TabInformation.filter.value) {
+      onActiveTabAndPageChange(1);
+    }
 
     if (activeTab !== TabInformation.filter.value) {
       dispatch(cleanTag());
     }
+    console.log(activeTab);
   }, [activeTab]);
 
   useEffect(() => {
     if (!!tag) {
+      onActiveTabAndPageChange(1);
       if (activeTab !== TabInformation.filter.value) {
         setActiveTab(TabInformation.filter.value);
-      }
-      // same filter tab but use another value
-      else {
-        onActiveTabAndPageChange(1);
       }
     }
   }, [tag]);

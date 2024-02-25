@@ -36,6 +36,7 @@ const EditSetting = ({ isLoading, user, onSubmit, onLogout }: OwnProps) => {
   };
   const formFromFormik = useFormik({
     initialValues: initialUser,
+    enableReinitialize: false,
     validationSchema: EditSettingSchema,
     onSubmit: ({ image, username, bio, email, password }, { resetForm }) => {
       const editUser: UpdateUser = {
@@ -46,7 +47,7 @@ const EditSetting = ({ isLoading, user, onSubmit, onLogout }: OwnProps) => {
         password,
       };
       onSubmit(editUser);
-      resetForm();
+      // resetForm({});
     },
   });
 

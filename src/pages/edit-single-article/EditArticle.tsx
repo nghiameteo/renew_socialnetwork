@@ -24,9 +24,9 @@ const EditArticle = ({ article, isLoading, onSubmit }: OwnProps) => {
   };
   const formFromFormik = useFormik({
     initialValues: initialValues,
-    enableReinitialize: true,
+    enableReinitialize: false,
     validationSchema: EditArticleSchema,
-    onSubmit: ({ title, description, body, tagList }, { resetForm }) => {
+    onSubmit: ({ title, description, body, tagList }) => {
       const articleData: NewArticle = {
         title,
         description,
@@ -34,14 +34,15 @@ const EditArticle = ({ article, isLoading, onSubmit }: OwnProps) => {
         tagList,
       };
       onSubmit(articleData);
-      resetForm();
     },
   });
 
   return (
     <>
       <Container className={styles.container} maxWidth="xl">
-        <Typography className={styles.typoHeader}>{!!article? 'Update Article':'New Article'}</Typography>
+        <Typography className={styles.typoHeader}>
+          {!!article ? "Update Article" : "New Article"}
+        </Typography>
         <form className={styles.form} onSubmit={formFromFormik.handleSubmit}>
           <TextField
             fullWidth
@@ -89,8 +90,7 @@ const EditArticle = ({ article, isLoading, onSubmit }: OwnProps) => {
             onChange={formFromFormik.handleChange}
             onBlur={formFromFormik.handleBlur}
             error={
-              formFromFormik.touched.body &&
-              Boolean(formFromFormik.errors.body)
+              formFromFormik.touched.body && Boolean(formFromFormik.errors.body)
             }
             helperText={
               formFromFormik.touched.body && formFromFormik.errors.body
@@ -120,7 +120,7 @@ const EditArticle = ({ article, isLoading, onSubmit }: OwnProps) => {
               disabled={isLoading}
             >
               {!article && <>{isLoading ? "Processing" : "New Article"}</>}
-              {!!article && <>{isLoading ? "Processing" : "Update Article"}</>}              
+              {!!article && <>{isLoading ? "Processing" : "Update Article"}</>}
             </GreenButton>
           </Box>
         </form>
